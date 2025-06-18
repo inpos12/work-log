@@ -52,9 +52,9 @@ const MenuTabBar: React.FC<Props> = (props) => {
 
 export default function Navbar() {
   return (
-    <nav className="flex flex-col items-center">
-      <Row classname="shadow-[6px_0_10px_rgba(0,0,0,0.5)] bg-[#121212] h-[100vh] justify-between flex flex-col rounded-lg">
-        <Col perRow={1} classname=" px-0">
+    <nav className="fixed z-10 flex flex-col items-center">
+      <Row classname="shadow-[6px_0_10px_rgba(0,0,0,0.5)] bg-[#121212] h-[100vh]  justify-between flex flex-col rounded-lg">
+        <Col perRow={1} classname=" px-0 flex justify-between flex-col">
           <Image src={SamwonLogo} alt="SamwonLogo" className="mx-auto w-full" />
           <Image className="mx-auto mt-9" src={AdminLogo} alt="AdminLogo" />
           <p className="mb-12 px-[95px] text-center text-3xl text-white">
@@ -71,11 +71,11 @@ export default function Navbar() {
             blackIcon={UserBlackIcon}
             menuName="사용자"
           />
-        </Col>
-        <Col perRow={1} classname="px-0 flex justify-center">
-          <button className="my-10 w-2/3 rounded-xl bg-red-700 py-2 font-semibold text-white">
-            로그아웃
-          </button>
+          <div className="text-center">
+            <button className="my-10 w-2/3 rounded-xl bg-red-700 py-2 font-semibold text-white">
+              로그아웃
+            </button>
+          </div>
         </Col>
       </Row>
     </nav>

@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useState } from "react";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { PageIndicator } from "@/components/common/PageIndicator";
 
 type Report = {
   id: number;
@@ -44,16 +45,14 @@ export default function Home() {
   return (
     <>
       {/* 폰트 사이즈 테스트 섹션 */}
-      <Container classname="container flex-col">
+      <Container classname="container flex-col ">
         <Row classname="w-full py-3 px-2 border-b-4 border-b-[#121212] ">
-          <Col
-            perRow={2}
-            classname="flex items-center justify-start tracking-[0.25rem] "
-          >
-            <Image src={WorkLogblackIcon} alt="WorkLogblackIcon" />
-            <p className="font-semibold">업무일지</p>
-          </Col>
-          <Col perRow={2} classname="flex justify-end">
+          <PageIndicator
+            image={WorkLogblackIcon}
+            alt="WorkLogBlackIcon"
+            title="업무일지"
+          />
+          <Col classname="flex justify-end">
             <button className="flex w-full max-w-28 items-center justify-between rounded-lg bg-red-700 p-2 text-white">
               <p className="text-left">+</p>
               <p className="text-right" onClick={goToNewWorkLogPage}>

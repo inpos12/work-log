@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   children: React.ReactNode;
-  perRow: number;
+  perRow?: number;
   classname?: string;
 };
 
