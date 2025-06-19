@@ -2,13 +2,33 @@
 import { PageIndicator } from "@/components/common/PageIndicator";
 import Container from "@/components/layout/Container";
 import Row from "@/components/layout/Row";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import WorkLogBlackIcon from "@/img/삼원-근무일지-블랙-로고.png";
 import DatePicker from "react-datepicker";
 import Col from "@/components/layout/Col";
 import "react-datepicker/dist/react-datepicker.css";
 export const NewWorkLog = () => {
+  const formref = useRef<HTMLFormElement>(null);
   const [date, setDate] = useState<Date | null>(null);
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = {
+      title: formData.get("title"),
+      team: formData.get("team"),
+      status: formData.get("status"),
+      content: formData.get("content"),
+      result: formData.get("result"),
+      date: date?.toISOString().split("T")[0],
+    };
+    console.log(data);
+  };
+
+  const handleIndicatorButtonClick = () => {
+    formref.current?.requestSubmit();
+  };
   return (
     <>
       <Container classname="container flex-col  ">
@@ -17,6 +37,9 @@ export const NewWorkLog = () => {
             image={WorkLogBlackIcon}
             alt="WorkLogBlackIcon"
             title="새 업무일지 작성"
+            buttonicon={false}
+            buttonname="저장하기"
+            onButtonClick={handleIndicatorButtonClick}
           />
         </Row>
         <Row classname="w-full xl:w-1/2 h-[90vh]">
@@ -24,10 +47,15 @@ export const NewWorkLog = () => {
             perRow={1}
             classname="bg-gray-200 p-6 rounded-md shadow-xl border-2 border-gray-50"
           >
-            <form className="flex flex-col gap-4">
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={onSubmit}
+              ref={formref}
+            >
               <div>
                 <p className="text-lg">제목</p>
                 <input
+                  name="title"
                   className="mt-2 w-full rounded-md py-1 pl-2"
                   placeholder="업무일지 제목을 입력하세요"
                 />
@@ -38,6 +66,7 @@ export const NewWorkLog = () => {
                   wrapperClassName="w-full mt-2"
                   customInput={
                     <input
+                      name="date"
                       maxLength={8}
                       className="w-full cursor-pointer rounded-md border border-gray-400 py-1 pl-2"
                     />
@@ -52,6 +81,7 @@ export const NewWorkLog = () => {
                 <div className="w-full pr-2">
                   <p>팀</p>
                   <select
+                    name="team"
                     className="mt-2 w-full py-1 pl-2"
                     defaultValue="영업부"
                   >
@@ -62,7 +92,7 @@ export const NewWorkLog = () => {
                 </div>
                 <div className="relative right-0 w-full pl-2">
                   <p>진행상태</p>
-                  <select className="mt-2 w-full py-1 pl-2">
+                  <select name="status" className="mt-2 w-full py-1 pl-2">
                     <option value="대기중">대기중</option>
                     <option value="진행중">진행중</option>
                     <option value="완료">완료</option>
@@ -73,6 +103,7 @@ export const NewWorkLog = () => {
               <div>
                 <p>업무내용</p>
                 <textarea
+                  name="content"
                   placeholder="상세 업무 내용을 입력하세요"
                   className="mt-2 h-60 w-full px-2 py-1"
                 />
@@ -80,6 +111,7 @@ export const NewWorkLog = () => {
               <div>
                 <p>업무 결과</p>
                 <textarea
+                  name="result"
                   placeholder="업무 결과 및 성과를 입력하세요"
                   className="mt-2 h-40 w-full px-2 py-1"
                 />

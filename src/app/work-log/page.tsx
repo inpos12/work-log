@@ -6,9 +6,11 @@ import WorkLogblackIcon from "@/img/삼원-근무일지-블랙-로고.png";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { PageIndicator } from "@/components/common/PageIndicator";
+import { client, run } from "@/config/dbconfig";
+import axios from "axios";
 
 type Report = {
   id: number;
@@ -42,6 +44,15 @@ export default function Home() {
     e.preventDefault();
     goToNewWorkLog();
   };
+  async function TEST() {
+    try {
+      const result = await axios.get("/api/test");
+      console.log(result.data.message);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <>
       {/* 폰트 사이즈 테스트 섹션 */}
@@ -51,15 +62,11 @@ export default function Home() {
             image={WorkLogblackIcon}
             alt="WorkLogBlackIcon"
             title="업무일지"
+            firstbuttonname="+"
+            buttonname="새 업무일지"
+            buttonicon={true}
+            onButtonClick={goToNewWorkLogPage}
           />
-          <Col classname="flex justify-end">
-            <button className="flex w-full max-w-28 items-center justify-between rounded-lg bg-red-700 p-2 text-white">
-              <p className="text-left">+</p>
-              <p className="text-right" onClick={goToNewWorkLogPage}>
-                새 업무일지
-              </p>
-            </button>
-          </Col>
         </Row>
         <Row classname="w-full px-2 py-3 border-b-4 border-b-[#121212] ">
           <form className="w-full text-nowrap md:grid md:grid-rows-2 lg:flex">
@@ -142,6 +149,7 @@ export default function Home() {
               </div>
             </div>
           ))}
+          <button onClick={TEST}>테스트버튼겟</button>
         </Row>
       </Container>
     </>
