@@ -7,23 +7,46 @@ import WorkLogBlackIcon from "@/img/삼원-근무일지-블랙-로고.png";
 import DatePicker from "react-datepicker";
 import Col from "@/components/layout/Col";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+
+type DataType = {
+  title: FormDataEntryValue | null;
+  username: FormDataEntryValue | null;
+  team: FormDataEntryValue | null;
+  status: FormDataEntryValue | null;
+  content: FormDataEntryValue | null;
+  result: FormDataEntryValue | null;
+  date: string | undefined;
+};
 export const NewWorkLog = () => {
   const formref = useRef<HTMLFormElement>(null);
   const [date, setDate] = useState<Date | null>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = {
-      title: formData.get("title"),
-      team: formData.get("team"),
-      status: formData.get("status"),
-      content: formData.get("content"),
-      result: formData.get("result"),
-      date: date?.toISOString().split("T")[0],
+    const data: DataType = {
+      title: formData.get("title") as string,
+      username: formData.get("username") as string,
+      team: formData.get("team") as string,
+      status: formData.get("status") as string,
+      content: formData.get("content") as string,
+      result: formData.get("result") as string,
+      date: date?.toISOString().split("T")[0] ?? "",
     };
     console.log(data);
+    try {
+      const result = await axios.post("/api/worklogs/", data);
+      console.log(result.data.message);
+    } catch (error: any) {
+      // axios 에러 메시지 접근 예시
+      if (error.response?.data?.error) {
+        console.log("프론트에러:", error.response.data.error);
+      } else {
+        console.log("프론트에러:", error.message);
+      }
+    }
   };
 
   const handleIndicatorButtonClick = () => {
@@ -45,7 +68,7 @@ export const NewWorkLog = () => {
         <Row classname="w-full xl:w-1/2 h-[90vh]">
           <Col
             perRow={1}
-            classname="bg-gray-200 p-6 rounded-md shadow-xl border-2 border-gray-50"
+            classname="bg-gray-200 p-5 rounded-lg shadow-xl border-2 border-gray-50"
           >
             <form
               className="flex flex-col gap-4"
@@ -58,6 +81,13 @@ export const NewWorkLog = () => {
                   name="title"
                   className="mt-2 w-full rounded-md py-1 pl-2"
                   placeholder="업무일지 제목을 입력하세요"
+                />
+              </div>
+              <div>
+                <p>작성자</p>
+                <input
+                  name="username"
+                  className="mt-2 w-full rounded-md py-1 pl-2"
                 />
               </div>
               <div>

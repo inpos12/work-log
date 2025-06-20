@@ -1,30 +1,29 @@
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri = process.env.MONGODB_URI;
+import { MongoClient, ServerApiVersion } from "mongodb";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-export const client = new MongoClient(uri, {
+const uri = process.env.MONGODB_URI!;
+const options = {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-    poolSize: 10, // 최대 연결 수를 10으로 설정
-    waitQueueTimeoutMS: 30000, // 대기 시간 30초로 설정
-    serverSelectionTimeoutMS: 10000, // 서버 선택 대기 시간 10초로 설정
   },
-});
+  maxPoolSize: 10,
+  waitQueueTimeoutMS: 30000,
+  serverSelectionTimeoutMS: 10000,
+};
 
-export async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!",
-    );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
+let client: MongoClient;
+let clientPromise: Promise<MongoClient>;
+
+declare global {
+  // 전역 변수에 타입 선언 (Next.js 핫 리로딩 문제 방지용)
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
-run().catch(console.dir);
+
+if (!global._mongoClientPromise) {
+  client = new MongoClient(uri, options);
+  global._mongoClientPromise = client.connect();
+}
+clientPromise = global._mongoClientPromise;
+
+export default clientPromise;

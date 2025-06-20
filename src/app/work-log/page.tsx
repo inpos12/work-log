@@ -9,49 +9,40 @@ import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from "react";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { PageIndicator } from "@/components/common/PageIndicator";
-import { client, run } from "@/config/dbconfig";
+
 import axios from "axios";
 
 type Report = {
-  id: number;
-  data: string;
-  dept: string;
-  name: string;
-  content: string;
+  date: string;
+  team: string;
+  title: string;
+  username: string;
+  status: string;
 };
-const reportData: Report[] = [
-  {
-    id: 1,
-    data: "2025-01-14",
-    dept: "영업부",
-    name: "한건고",
-    content: "01/14 업무 보고 내용",
-  },
-  {
-    id: 2,
-    data: "2025-01-15",
-    dept: "기획부",
-    name: "박소연",
-    content: "프로젝트 기획안 작성",
-  },
-];
 
 export default function Home() {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [workLogData, setWorkLogData] = useState<Report[]>([]);
+
   const { goToNewWorkLog } = useCustomRouter();
   const goToNewWorkLogPage = (e: React.MouseEvent) => {
     e.preventDefault();
     goToNewWorkLog();
   };
-  async function TEST() {
-    try {
-      const result = await axios.get("/api/test");
-      console.log(result.data.message);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
+  useEffect(() => {
+    const WorklogData = async () => {
+      try {
+        const result = await axios.get("/api/worklogs");
+        console.log(result.data);
+        setWorkLogData(result.data.result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    WorklogData();
+  }, []);
 
   return (
     <>
@@ -130,26 +121,26 @@ export default function Home() {
         </Row>
         <div className="mt-2" />
         <Row classname="w-full border-b-2 border-gray-400 ">
-          {reportData.map((item, index) => (
+          {workLogData.map((item, index) => (
             <div
               key={index}
               className="flex w-full border-t-2 border-gray-400 py-2"
             >
               <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.data}</h1>
+                <h1 className="text-sm">{item.date}</h1>
               </div>
               <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.dept}</h1>
+                <h1 className="text-sm">{item.team}</h1>
               </div>
               <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.name}</h1>
+                <h1 className="text-sm">{item.username}</h1>
               </div>
-              <div className="w-3/6 text-center">
-                <h1 className="text-sm">{item.content}</h1>
+              <div className="flex w-3/6 justify-around text-center">
+                <h1 className="w-1/2 text-sm">{item.title}</h1>
+                <h1 className="w-1/2 text-sm">{item.status}</h1>
               </div>
             </div>
           ))}
-          <button onClick={TEST}>테스트버튼겟</button>
         </Row>
       </Container>
     </>
