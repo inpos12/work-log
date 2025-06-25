@@ -6,14 +6,15 @@ import WorkLogblackIcon from "@/img/삼원-근무일지-블랙-로고.png";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { PageIndicator } from "@/components/common/PageIndicator";
 
 import axios from "axios";
+import { WorkLogContext } from "../layout";
 
 type Report = {
-  date: string;
+  newDate: string;
   team: string;
   title: string;
   username: string;
@@ -21,6 +22,11 @@ type Report = {
 };
 
 export default function Home() {
+  const context = useContext(WorkLogContext);
+  if (!context) return null; // 또는 로딩 처리, 에러 처리
+
+  const { isSearchMode, setIsSearchMode } = context;
+  const [searchData, setSearchData] = useState<Report[]>([]);
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [workLogData, setWorkLogData] = useState<Report[]>([]);
@@ -30,13 +36,21 @@ export default function Home() {
     e.preventDefault();
     goToNewWorkLog();
   };
+  // new Date YYYY-MM-DD 로 가공
+  const formatDate = (result: Report[]) => {
+    return result.map((item: any) => ({
+      ...item,
+      newDate: new Date(item.newDate).toISOString().slice(0, 10),
+    }));
+  };
 
   useEffect(() => {
     const WorklogData = async () => {
       try {
         const result = await axios.get("/api/worklogs");
-        console.log(result.data);
-        setWorkLogData(result.data.result);
+        //Date YYYY-MM-DD 로 가공후 스테이트에 저장후 출력
+        const newData = formatDate(result.data.result);
+        setWorkLogData(newData);
       } catch (error) {
         console.log(error);
       }
@@ -44,6 +58,23 @@ export default function Home() {
     WorklogData();
   }, []);
 
+  const SearchDataHandler = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const result = await axios.get("/api/worklogs", {
+        params: {
+          start: startDate,
+          end: endDate,
+        },
+      });
+      const newData = formatDate(result.data.searchData);
+      setSearchData(newData);
+      setIsSearchMode(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(searchData);
   return (
     <>
       {/* 폰트 사이즈 테스트 섹션 */}
@@ -99,7 +130,10 @@ export default function Home() {
                 selected={endDate}
                 onChange={(date: Date | null) => setEndDate(date)}
               ></DatePicker>
-              <button className="ml-4 rounded-lg bg-black px-2 py-1 text-sm font-light text-white">
+              <button
+                onClick={SearchDataHandler}
+                className="ml-4 rounded-lg bg-black px-2 py-1 text-sm font-light text-white"
+              >
                 조회
               </button>
             </div>
@@ -121,26 +155,48 @@ export default function Home() {
         </Row>
         <div className="mt-2" />
         <Row classname="w-full border-b-2 border-gray-400 ">
-          {workLogData.map((item, index) => (
-            <div
-              key={index}
-              className="flex w-full border-t-2 border-gray-400 py-2"
-            >
-              <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.date}</h1>
-              </div>
-              <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.team}</h1>
-              </div>
-              <div className="w-1/6 text-center">
-                <h1 className="text-sm">{item.username}</h1>
-              </div>
-              <div className="flex w-3/6 justify-around text-center">
-                <h1 className="w-1/2 text-sm">{item.title}</h1>
-                <h1 className="w-1/2 text-sm">{item.status}</h1>
-              </div>
-            </div>
-          ))}
+          {!isSearchMode
+            ? workLogData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex w-full border-t-2 border-gray-400 py-2"
+                >
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.newDate}</h1>
+                  </div>
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.team}</h1>
+                  </div>
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.username}</h1>
+                  </div>
+                  <div className="flex w-3/6 justify-around text-center">
+                    <h1 className="w-1/2 text-sm">{item.title}</h1>
+                    <h1 className="w-1/2 text-sm">{item.status}</h1>
+                  </div>
+                </div>
+              ))
+            : searchData?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex w-full border-t-2 border-gray-400 py-2"
+                >
+                  {/* 검색 결과 항목도 동일한 레이아웃이라면 위와 동일하게 렌더링 */}
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.newDate}</h1>
+                  </div>
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.team}</h1>
+                  </div>
+                  <div className="w-1/6 text-center">
+                    <h1 className="text-sm">{item.username}</h1>
+                  </div>
+                  <div className="flex w-3/6 justify-around text-center">
+                    <h1 className="w-1/2 text-sm">{item.title}</h1>
+                    <h1 className="w-1/2 text-sm">{item.status}</h1>
+                  </div>
+                </div>
+              ))}
         </Row>
       </Container>
     </>

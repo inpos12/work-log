@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Row from "../layout/Row";
 import Col from "../layout/Col";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import UserWhiteIcon from "@/img/사용자-화이트-로고.png";
 import UserBlackIcon from "@/img/삼원-사용자-블랙-로고.png";
 import SamwonLogo from "@/img/삼원메인로고1.png";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { WorkLogContext } from "@/app/layout";
 
 interface Props {
   whiteIcon: StaticImport;
@@ -18,11 +19,14 @@ interface Props {
   menuName: string;
 }
 const MenuTabBar: React.FC<Props> = (props) => {
+  const context = useContext(WorkLogContext);
+  if (!context) return null;
+  const { setIsSearchMode } = context;
   const [isHovered, setIsHovered] = useState<boolean>(false);
-
   const { goToWorkLog } = useCustomRouter();
   const goToWorkLogPage = (e: React.MouseEvent) => {
     e.preventDefault();
+    setIsSearchMode(false);
     goToWorkLog();
   };
   return (
@@ -65,7 +69,6 @@ export default function Navbar() {
             blackIcon={WorkLogBlackIcon}
             menuName="업무일지"
           />
-
           <MenuTabBar
             whiteIcon={UserWhiteIcon}
             blackIcon={UserBlackIcon}

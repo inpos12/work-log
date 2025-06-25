@@ -6,6 +6,9 @@ export const POST = async (req: NextRequest) => {
     const body = await req.json();
     console.log(body);
     const { title, team, username, status, content, result, date } = body;
+    const newDate = new Date(date);
+    console.log(newDate);
+
     if (
       !title ||
       !team ||
@@ -13,7 +16,7 @@ export const POST = async (req: NextRequest) => {
       !status ||
       !content ||
       !result ||
-      !date
+      !newDate
     ) {
       return NextResponse.json({ message: "필수 항목 누락" }, { status: 400 });
     }
@@ -27,8 +30,9 @@ export const POST = async (req: NextRequest) => {
       status,
       content,
       result,
-      date,
+      newDate,
     });
+
     return NextResponse.json({ message: "업무일지등록" }, { status: 200 });
   } catch (error) {
     console.log("새업무일지등록에러", error);
@@ -39,17 +43,53 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   try {
     const client = await clientPromise;
     const db = client.db("worklogdb");
     const collection = db.collection("worklogs");
+    const url = new URL(req.url);
+    const startDateStr = url.searchParams.get("start");
+    const endDateStr = url.searchParams.get("end");
+    if (startDateStr && endDateStr) {
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
+      endDate.setHours(23, 59, 59, 999);
+      const searchData = await collection
+        .find({
+          newDate: {
+            $gte: startDate,
+            $lte: endDate,
+          },
+        })
+        .toArray();
+      return NextResponse.json({
+        message: "파람스로날짜받고 그날짜기반 데이터 보내기",
+        searchData,
+      });
+    }
+
+    // console.log(endDate, startDate);
     const result = await collection
       .find(
         {},
-        { projection: { date: 1, team: 1, username: 1, title: 1, status: 1 } },
+        {
+          projection: { newDate: 1, team: 1, username: 1, title: 1, status: 1 },
+        },
       )
       .toArray();
+
+    // const results = resultfind.map((doc) => {
+    //   const dateObj = new Date(doc.date);
+
+    //   const formatDate = doc.date.toISOString().slice(0, 10);
+    //   console.log(formatDate);
+    //   return {
+    //     ...doc,
+    //     date: formatDate,
+    //   };
+    // });
+
     return NextResponse.json(
       { message: "업무일지 불러오기 완료", result },
       { status: 200 },

@@ -21,11 +21,17 @@ type DataType = {
 export const NewWorkLog = () => {
   const formref = useRef<HTMLFormElement>(null);
   const [date, setDate] = useState<Date | null>(null);
-
+  const getKSTDateString = (date: Date | null): string | undefined => {
+    if (!date) return undefined;
+    const kstOffset = 9 * 60 * 60 * 1000; // 9시간 밀리초
+    const kstDate = new Date(date.getTime() + kstOffset);
+    return kstDate.toISOString().slice(0, 10);
+  };
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const formattedDate = getKSTDateString(date);
     const data: DataType = {
       title: formData.get("title") as string,
       username: formData.get("username") as string,
@@ -33,7 +39,7 @@ export const NewWorkLog = () => {
       status: formData.get("status") as string,
       content: formData.get("content") as string,
       result: formData.get("result") as string,
-      date: date?.toISOString().split("T")[0] ?? "",
+      date: formattedDate ? `${formattedDate}T00:00:00+09:00` : undefined,
     };
     console.log(data);
     try {
