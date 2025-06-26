@@ -4,10 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    console.log(body);
+
     const { title, team, username, status, content, result, date } = body;
     const newDate = new Date(date);
-    console.log(newDate);
 
     if (
       !title ||
@@ -69,7 +68,6 @@ export const GET = async (req: NextRequest) => {
       });
     }
 
-    // console.log(endDate, startDate);
     const result = await collection
       .find(
         {},
@@ -77,19 +75,9 @@ export const GET = async (req: NextRequest) => {
           projection: { newDate: 1, team: 1, username: 1, title: 1, status: 1 },
         },
       )
+      .sort({ newDate: -1 })
       .toArray();
-
-    // const results = resultfind.map((doc) => {
-    //   const dateObj = new Date(doc.date);
-
-    //   const formatDate = doc.date.toISOString().slice(0, 10);
-    //   console.log(formatDate);
-    //   return {
-    //     ...doc,
-    //     date: formatDate,
-    //   };
-    // });
-
+    console.log(result);
     return NextResponse.json(
       { message: "업무일지 불러오기 완료", result },
       { status: 200 },

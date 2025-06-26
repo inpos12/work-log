@@ -38,10 +38,22 @@ export default function Home() {
   };
   // new Date YYYY-MM-DD 로 가공
   const formatDate = (result: Report[]) => {
-    return result.map((item: any) => ({
-      ...item,
-      newDate: new Date(item.newDate).toISOString().slice(0, 10),
-    }));
+    return result.map((item: any) => {
+      const utcDate = new Date(item.newDate);
+      const kstString = utcDate.toLocaleString("en-US", {
+        timeZone: "Asia/Seoul",
+      });
+      const newDate = new Date(kstString);
+      const yyyy = newDate.getFullYear();
+      const month = String(newDate.getMonth() + 1).padStart(2, "0");
+      const day = String(newDate.getDate()).padStart(2, "0");
+      console.log(`${yyyy}${month}${day}`); // 확인용
+
+      return {
+        ...item,
+        newDate: yyyy + "-" + month + "-" + day,
+      };
+    });
   };
 
   useEffect(() => {
