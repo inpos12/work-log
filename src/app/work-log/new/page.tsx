@@ -38,7 +38,7 @@ export const NewWorkLog = () => {
         timeZone: "Asia/Seoul",
       }),
     };
-    console.log("datra", data);
+
     try {
       const result = await axios.post("/api/worklogs/", data);
       console.log(result.data.message);
@@ -60,7 +60,9 @@ export const NewWorkLog = () => {
       <Container classname="container flex-col  ">
         <Row classname="w-full py-3 px-2 border-b-4 border-b-[#121212]">
           <PageIndicator
+            imageboolen={true}
             image={WorkLogBlackIcon}
+            iconboolen={false}
             alt="WorkLogBlackIcon"
             title="새 업무일지 작성"
             buttonicon={false}

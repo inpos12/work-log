@@ -72,7 +72,14 @@ export const GET = async (req: NextRequest) => {
       .find(
         {},
         {
-          projection: { newDate: 1, team: 1, username: 1, title: 1, status: 1 },
+          projection: {
+            _id: 1,
+            newDate: 1,
+            team: 1,
+            username: 1,
+            title: 1,
+            status: 1,
+          },
         },
       )
       .sort({ newDate: -1 })
