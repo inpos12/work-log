@@ -5,6 +5,7 @@ import { PageIndicator } from "@/components/common/PageIndicator";
 import Col from "@/components/layout/Col";
 import Container from "@/components/layout/Container";
 import Row from "@/components/layout/Row";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import axios from "axios";
 import { ArrowLeft, Calendar, MoveLeft, User } from "lucide-react";
@@ -46,7 +47,7 @@ export default function Details() {
             id: id,
           },
         });
-        const raw = result.data.result;
+        const raw = result.data.data;
         const utcDate = new Date(raw.newDate);
         const yyyy = utcDate.getFullYear();
         const month = String(utcDate.getMonth() + 1).padStart(2, "0");
@@ -106,7 +107,7 @@ export default function Details() {
                 <h1>결과 : {data.result}</h1>
               </div>
             ) : (
-              <div>aaa</div>
+              <LoadingSpinner />
             )}
           </Col>
         </Row>

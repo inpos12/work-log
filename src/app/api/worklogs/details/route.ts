@@ -1,4 +1,6 @@
 import clientPromise from "@/config/dbconfig";
+import { DBWorkLogDetails } from "@/types/worklog";
+import { createAPIResponse } from "@/utils/api-response";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -12,7 +14,7 @@ export const GET = async (req: NextRequest) => {
     const Object = new ObjectId(id);
     const client = await clientPromise;
     const db = client.db("worklogdb");
-    const collection = db.collection("worklogs");
+    const collection = db.collection<DBWorkLogDetails>("worklogs");
     const result = await collection.findOne(
       {
         _id: { $eq: Object },
@@ -30,7 +32,7 @@ export const GET = async (req: NextRequest) => {
       },
     );
 
-    return NextResponse.json({ message: "성공", result }, { status: 200 });
+    return createAPIResponse("Success", result, 200);
   } catch (err) {
     console.log(err);
   }

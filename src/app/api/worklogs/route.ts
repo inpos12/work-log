@@ -1,4 +1,8 @@
 import clientPromise from "@/config/dbconfig";
+import {
+  createAPIErrorResponse,
+  createAPIResponse,
+} from "@/utils/api-response";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -62,12 +66,8 @@ export const GET = async (req: NextRequest) => {
           },
         })
         .toArray();
-      return NextResponse.json({
-        message: "파람스로날짜받고 그날짜기반 데이터 보내기",
-        searchData,
-      });
+      return createAPIResponse("Successs", searchData, 200);
     }
-
     const result = await collection
       .find(
         {},
@@ -85,11 +85,8 @@ export const GET = async (req: NextRequest) => {
       .sort({ newDate: -1 })
       .toArray();
     console.log(result);
-    return NextResponse.json(
-      { message: "업무일지 불러오기 완료", result },
-      { status: 200 },
-    );
+    return createAPIResponse("Success", result, 200);
   } catch (error) {
-    return NextResponse.json({ message: "서버오류" }, { status: 500 });
+    return createAPIErrorResponse("Failed to fetch worklogs");
   }
 };

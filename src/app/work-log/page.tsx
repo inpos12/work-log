@@ -3,35 +3,26 @@ import Col from "@/components/layout/Col";
 import Container from "@/components/layout/Container";
 import Row from "@/components/layout/Row";
 import WorkLogblackIcon from "@/img/삼원-근무일지-블랙-로고.png";
-import Image from "next/image";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useContext, useEffect, useState } from "react";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { PageIndicator } from "@/components/common/PageIndicator";
 
-import axios from "axios";
 import { WorkLogContext } from "../layout";
 import Link from "next/link";
 
-type Report = {
-  _id: string;
-  newDate: string;
-  team: string;
-  title: string;
-  username: string;
-  status: string;
-};
+import { useWorkLogs } from "@/hooks/useWorkLogs";
+import { ErrorMessage, LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 export default function Home() {
   const context = useContext(WorkLogContext);
   if (!context) return null; // 또는 로딩 처리, 에러 처리
-
-  const { isSearchMode, setIsSearchMode } = context;
-  const [searchData, setSearchData] = useState<Report[]>([]);
+  const { isSearchMode } = context;
+  const { workLogs, searchData, loading, error, WorkLogData } = useWorkLogs();
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
-  const [workLogData, setWorkLogData] = useState<Report[]>([]);
 
   const { goToNewWorkLog } = useCustomRouter();
   const goToNewWorkLogPage = (e: React.MouseEvent) => {
@@ -39,56 +30,16 @@ export default function Home() {
     goToNewWorkLog();
   };
   // new Date YYYY-MM-DD 로 가공
-  const formatDate = (result: Report[]) => {
-    return result.map((item: any) => {
-      const utcDate = new Date(item.newDate);
-      const kstString = utcDate.toLocaleString("en-US", {
-        timeZone: "Asia/Seoul",
-      });
-      const newDate = new Date(kstString);
-      const yyyy = newDate.getFullYear();
-      const month = String(newDate.getMonth() + 1).padStart(2, "0");
-      const day = String(newDate.getDate()).padStart(2, "0");
-      console.log(`${yyyy}${month}${day}`); // 확인용
-
-      return {
-        ...item,
-        newDate: yyyy + "-" + month + "-" + day,
-      };
-    });
-  };
 
   useEffect(() => {
-    const WorklogData = async () => {
-      try {
-        const result = await axios.get("/api/worklogs");
-        //Date YYYY-MM-DD 로 가공후 스테이트에 저장후 출력
-        const newData = formatDate(result.data.result);
-        setWorkLogData(newData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    WorklogData();
+    WorkLogData();
   }, []);
-  console.log(workLogData);
+
   const SearchDataHandler = async (e: React.MouseEvent) => {
     e.preventDefault();
-    try {
-      const result = await axios.get("/api/worklogs", {
-        params: {
-          start: startDate,
-          end: endDate,
-        },
-      });
-      const newData = formatDate(result.data.searchData);
-      setSearchData(newData);
-      setIsSearchMode(true);
-    } catch (error) {
-      console.log(error);
-    }
+    WorkLogData({ start: startDate, end: endDate });
   };
-  console.log(searchData);
+
   return (
     <>
       {/* 폰트 사이즈 테스트 섹션 */}
@@ -171,8 +122,17 @@ export default function Home() {
         </Row>
         <div className="mt-2" />
         <Row classname="w-full border-b-2 border-gray-400 ">
+          {loading ? (
+            <div className="flex w-full items-center justify-center">
+              <LoadingSpinner />
+            </div>
+          ) : error ? (
+            <ErrorMessage message="에러가 발생했습니다." />
+          ) : (
+            <div className="flex w-full items-center justify-center"></div>
+          )}
           {!isSearchMode
-            ? workLogData.map((item, index) => (
+            ? workLogs.map((item, index) => (
                 <div
                   key={index}
                   className="w-full border-t-2 border-gray-400 py-2"
