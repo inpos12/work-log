@@ -17,26 +17,29 @@ interface OwnProps {
 }
 export const PageIndicator: React.FC<OwnProps> = (props) => {
   return (
-    <>
-      <Col classname="flex items-center justify-start tracking-[0.25rem] ">
-        {props.imageboolen && (
-          <Image src={props.image!} alt={props.alt} className="h-10 w-10" />
-        )}
-        {props.iconboolen && props.icon}
-        <p className="ml-3 font-semibold">{props.title}</p>
-      </Col>
-      <Col classname="flex justify-end">
-        <button
-          onClick={props.onButtonClick}
-          className="flex items-center justify-center gap-5 rounded-lg bg-red-700 p-2 text-white"
-        >
-          {props.buttonicon && (
-            <p className="text-left">{props.firstbuttonname}</p>
+    <Col classname="w-full py-3 px-2 ">
+      <div className="flex items-center justify-between">
+        <Col classname="flex items-center justify-start tracking-[0.25rem] ">
+          {props.imageboolen && (
+            <Image src={props.image!} alt={props.alt} className="h-10 w-10" />
           )}
+          {props.iconboolen && props.icon}
+          <p className="ml-3 font-semibold">{props.title}</p>
+        </Col>
+        <Col classname="flex justify-end">
+          <button
+            onClick={props.onButtonClick}
+            className="flex items-center justify-center gap-5 rounded-lg bg-red-700 p-2 text-white"
+          >
+            {props.buttonicon && (
+              <p className="text-left">{props.firstbuttonname}</p>
+            )}
 
-          <p className="text-right">{props.buttonname}</p>
-        </button>
-      </Col>
-    </>
+            <p className="text-right">{props.buttonname}</p>
+          </button>
+        </Col>
+      </div>
+      <div className="w-full border-b-[1px] border-gray-200 py-2" />
+    </Col>
   );
 };

@@ -8,12 +8,9 @@ type Props = {
 };
 
 export default function Col({ children, perRow = 2, classname }: Props) {
-  const width = 100 / perRow;
   return (
     <>
-      <div className={`${classname}`} style={{ width: `${width}%` }}>
-        {children}
-      </div>
+      <div className={`${classname}`}>{children}</div>
     </>
   );
 }

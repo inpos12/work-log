@@ -1,17 +1,17 @@
 "use client";
 
-import { WorkLogContext } from "@/app/layout";
 import { PageIndicator } from "@/components/common/PageIndicator";
 import Col from "@/components/layout/Col";
 import Container from "@/components/layout/Container";
 import Row from "@/components/layout/Row";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
+import { searchStore } from "@/store/searchStore";
 import axios from "axios";
 import { ArrowLeft, Calendar, MoveLeft, User } from "lucide-react";
 import { useParams } from "next/navigation";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface OwnPropsType {
   newDate: string;
@@ -24,10 +24,7 @@ interface OwnPropsType {
 }
 
 export default function Details() {
-  const context = useContext(WorkLogContext);
-  if (!context) return;
-  const { isSearchMode, setIsSearchMode } = context;
-
+  const { setIsSearchMode, isSearchMode } = searchStore();
   const [data, setData] = useState<OwnPropsType>();
   const { goToWorkLog } = useCustomRouter();
   const params = useParams();
@@ -36,7 +33,7 @@ export default function Details() {
   const goToWorkLogPage = (e: React.MouseEvent) => {
     e.preventDefault();
     goToWorkLog();
-    setIsSearchMode(false);
+    setIsSearchMode(isSearchMode);
   };
 
   useEffect(() => {
@@ -64,28 +61,24 @@ export default function Details() {
   return (
     <>
       <Container classname="bg-red w-full flex-col">
-        <Row classname=" w-full py-3 px-2 border-b-4 border-b-[#121212]">
-          <PageIndicator
-            imageboolen={false}
-            iconboolen={true}
-            icon={
-              <ArrowLeft
-                onClick={goToWorkLogPage}
-                className="h-10 w-10 cursor-pointer"
-              />
-            }
-            alt="MoveLeft"
-            title="업무일지 상세"
-            onButtonClick={goToWorkLogPage}
-            buttonicon={false}
-            buttonname="수정"
-          />
-        </Row>
-        <Row classname="w-full xl:w-1/2 ">
-          <Col
-            perRow={1}
-            classname="bg-gray-200 p-5 rounded-lg shadow-xl border-2 border-gray-50"
-          >
+        <PageIndicator
+          imageboolen={false}
+          iconboolen={true}
+          icon={
+            <ArrowLeft
+              onClick={goToWorkLogPage}
+              className="h-10 w-10 cursor-pointer"
+            />
+          }
+          alt="MoveLeft"
+          title="업무일지 상세"
+          onButtonClick={goToWorkLogPage}
+          buttonicon={false}
+          buttonname="수정"
+        />
+
+        <Row classname="w-full  ">
+          <Col perRow={1} classname=" p-5 rounded-lg shadow-xl border-2 ">
             {data ? (
               <div>
                 <h1 className="text-3xl font-bold">{data.title}</h1>

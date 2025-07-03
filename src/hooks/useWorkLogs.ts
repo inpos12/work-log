@@ -1,8 +1,8 @@
-import { WorkLogContext } from "@/app/layout";
+import { searchStore } from "@/store/searchStore";
 import { WorkLog } from "@/types/worklog";
 import { formatDateToKST } from "@/utils/work-log";
 import axios from "axios";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 
 type SearchParams = {
   start?: Date | null;
@@ -10,17 +10,7 @@ type SearchParams = {
 };
 
 export const useWorkLogs = () => {
-  const context = useContext(WorkLogContext);
-  if (!context)
-    return {
-      workLogs: [],
-      searchData: [],
-      loading: false,
-      error: null,
-
-      WorkLogData: async () => {}, // 빈 함수라도 있어야 호출 가능
-    }; // 또는 로딩 처리, 에러 처리
-  const { setIsSearchMode } = context;
+  const { setIsSearchMode } = searchStore();
   const [workLogs, setWorkLogs] = useState<WorkLog[]>([]);
   const [searchData, setSearchData] = useState<WorkLog[]>([]);
   const [loading, setLoading] = useState(false);
