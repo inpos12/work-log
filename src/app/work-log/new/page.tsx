@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import Col from "@/components/layout/Col";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 type DataType = {
   title: FormDataEntryValue | null;
@@ -19,8 +20,9 @@ type DataType = {
   date: string | undefined;
 };
 export const NewWorkLog = () => {
+  const { goToWorkLog } = useCustomRouter();
   const formref = useRef<HTMLFormElement>(null);
-  const [date, setDate] = useState<Date | null>(null);
+  const [date, setDate] = useState<Date | null>(new Date());
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +43,8 @@ export const NewWorkLog = () => {
 
     try {
       const result = await axios.post("/api/worklogs/", data);
-      console.log(result.data.message);
+      alert(result.data.message);
+      goToWorkLog();
     } catch (error: any) {
       // axios 에러 메시지 접근 예시
       if (error.response?.data?.error) {
@@ -79,7 +82,7 @@ export const NewWorkLog = () => {
               <p className="text-lg">제목</p>
               <input
                 name="title"
-                className="mt-2 w-full rounded-md py-1 pl-2"
+                className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
                 placeholder="업무일지 제목을 입력하세요"
               />
             </div>
@@ -87,7 +90,8 @@ export const NewWorkLog = () => {
               <p>작성자</p>
               <input
                 name="username"
-                className="mt-2 w-full rounded-md py-1 pl-2"
+                placeholder="작성자명을 입력하세요"
+                className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
               />
             </div>
             <div>
@@ -97,8 +101,9 @@ export const NewWorkLog = () => {
                 customInput={
                   <input
                     name="date"
+                    placeholder="날짜를 선택하세요"
                     maxLength={8}
-                    className="w-full cursor-pointer rounded-md border border-gray-400 py-1 pl-2"
+                    className="w-full cursor-pointer rounded-md border border-gray-400 py-1 pl-2 text-black placeholder:text-gray-400"
                   />
                 }
                 dateFormat="yyyy-MM-dd"
@@ -112,21 +117,38 @@ export const NewWorkLog = () => {
                 <p>팀</p>
                 <select
                   name="team"
-                  className="mt-2 w-full py-1 pl-2"
+                  className="mt-2 w-full py-1 pl-2 text-black"
                   defaultValue="영업부"
                 >
-                  <option value="영업부">영업부</option>
-                  <option value="기획부">기획부</option>
-                  <option value="개발팀">개발팀</option>
+                  <option className="text-black" value="영업부">
+                    영업부
+                  </option>
+                  <option className="text-black" value="기획부">
+                    기획부
+                  </option>
+                  <option className="text-black" value="개발팀">
+                    개발팀
+                  </option>
                 </select>
               </div>
               <div className="relative right-0 w-full pl-2">
                 <p>진행상태</p>
-                <select name="status" className="mt-2 w-full py-1 pl-2">
-                  <option value="대기중">대기중</option>
-                  <option value="진행중">진행중</option>
-                  <option value="완료">완료</option>
-                  <option value="지연">지연</option>
+                <select
+                  name="status"
+                  className="mt-2 w-full py-1 pl-2 text-black"
+                >
+                  <option className="text-black" value="대기중">
+                    대기중
+                  </option>
+                  <option className="text-black" value="진행중">
+                    진행중
+                  </option>
+                  <option className="text-black" value="완료">
+                    완료
+                  </option>
+                  <option className="text-black" value="지연">
+                    지연
+                  </option>
                 </select>
               </div>
             </div>
@@ -135,7 +157,7 @@ export const NewWorkLog = () => {
               <textarea
                 name="content"
                 placeholder="상세 업무 내용을 입력하세요"
-                className="mt-2 h-60 w-full px-2 py-1"
+                className="mt-2 h-60 w-full px-2 py-1 text-black"
               />
             </div>
             <div>
@@ -143,7 +165,7 @@ export const NewWorkLog = () => {
               <textarea
                 name="result"
                 placeholder="업무 결과 및 성과를 입력하세요"
-                className="mt-2 h-40 w-full px-2 py-1"
+                className="mt-2 h-40 w-full px-2 py-1 text-black"
               />
             </div>
           </form>

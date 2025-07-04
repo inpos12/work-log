@@ -50,7 +50,7 @@ export default function Home() {
           onButtonClick={goToNewWorkLogPage}
         />
         <Row classname="w-full  ">
-          <form className="flex w-full text-nowrap md:grid md:grid-rows-2 lg:flex">
+          <form className="grid grid-rows-2 gap-4 text-nowrap">
             <div className="flex w-3/12 items-center">
               <label className="mr-4">부서 :</label>
               <select
@@ -68,7 +68,7 @@ export default function Home() {
                 customInput={
                   <input
                     maxLength={8}
-                    className="w-full min-w-24 max-w-36 cursor-pointer border pl-3 text-black"
+                    className="w-full cursor-pointer border pl-0 text-sm text-black sm:pl-2"
                   />
                 }
                 dateFormat="yyyy-MM-dd"
@@ -76,12 +76,12 @@ export default function Home() {
                 selected={startDate}
                 onChange={(date: Date | null) => setStartDate(date)}
               ></DatePicker>
-              <p className="px-5 font-black"> ~ </p>
+              <p className="mx-2"> ~ </p>
               <DatePicker
                 customInput={
                   <input
                     maxLength={8}
-                    className="ml-3 w-full min-w-24 max-w-36 cursor-pointer border pl-3 text-black"
+                    className="w-full cursor-pointer border pl-0 text-sm text-black sm:pl-2"
                   />
                 }
                 dateFormat="yyyy-MM-dd"
@@ -97,17 +97,17 @@ export default function Home() {
               </button>
             </div>
           </form>
-          <div className="flex items-center border-b-2 border-gray-400 py-4">
-            <div className="w-1/6 py-2 text-center">
+          <div className="hidden items-center border-b-2 border-gray-400 py-4 sm:flex">
+            <div className="py-2 text-center sm:w-1/6">
               <p className="text-white">작성일</p>
             </div>
-            <div className="w-1/6 text-center">
+            <div className="text-center sm:w-1/6">
               <p className="text-white">부서명</p>
             </div>
-            <div className="w-1/6 text-center">
+            <div className="text-center sm:w-1/6">
               <p className="text-white">작성자명</p>
             </div>
-            <div className="w-3/6 text-center text-white">
+            <div className="text-center text-white sm:w-3/6">
               <p className="py-2">업무일지명</p>
             </div>
           </div>
@@ -134,7 +134,7 @@ export default function Home() {
                       className="flex w-full"
                     >
                       <div className="w-1/6 text-center">
-                        <h1 className="text-sm">{item.newDate}</h1>
+                        <h1 className="text-xs">{item.newDate}</h1>
                       </div>
                       <div className="w-1/6 text-center">
                         <h1 className="text-sm">{item.team}</h1>
@@ -155,19 +155,29 @@ export default function Home() {
                   >
                     <Link
                       href={`/work-log/${item._id}`}
-                      className="flex w-full"
+                      className="flex w-full flex-col-reverse sm:flex-row"
                     >
-                      <div className="w-1/6 text-center">
-                        <h1 className="text-sm">{item.newDate}</h1>
+                      <div className="flex flex-col sm:w-3/6 sm:flex-row">
+                        <div className="sm:w-1/3 sm:text-center">
+                          <h1 className="text-xs lg:text-sm">{item.newDate}</h1>
+                        </div>
+                        <div className="flex sm:w-2/3 sm:flex-row">
+                          <div className="sm:w-1/2 sm:text-center">
+                            <h1 className="mr-2 text-xs sm:mr-0 sm:text-sm">
+                              {item.team}
+                            </h1>
+                          </div>
+                          <div className="sm:w-1/2 sm:text-center">
+                            <h1 className="text-xs sm:text-sm">
+                              {item.username}
+                            </h1>
+                          </div>
+                        </div>
                       </div>
-                      <div className="w-1/6 text-center">
-                        <h1 className="text-sm">{item.team}</h1>
-                      </div>
-                      <div className="w-1/6 text-center">
-                        <h1 className="text-sm">{item.username}</h1>
-                      </div>
-                      <div className="flex w-3/6 justify-around text-center">
-                        <h1 className="w-1/2 text-sm">{item.title}</h1>
+                      <div className="sm:w-3/6 sm:text-center">
+                        <h1 className="text-md font-semibold text-red-500 sm:text-sm sm:font-normal sm:text-white">
+                          {item.title}
+                        </h1>
                       </div>
                     </Link>
                   </div>

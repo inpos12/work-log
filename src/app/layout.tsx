@@ -20,6 +20,8 @@ export default function RootLayout({
   useEffect(() => {
     if (hideNavbar === true) {
       document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
     }
     console.log(hideNavbar);
   }, [hideNavbar]);
@@ -27,11 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen bg-gradient-to-br from-black to-red-900 text-slate-100">
         {!hideNavbar && <Navbar />}
-        <main className="">
+        <main>
           <>
-            <Container classname="flex  ">
+            <Container classname="md:flex">
               {!hideNavbar && (
-                <Row classname=" mr-4 flex justify-start w-1/6 flex-col items-center">
+                <Row classname=" mr-0 mb-4 md:mb-0 sm:mr-4 flex justify-start w-full md:max-w-[200px] flex-col items-center">
                   <MenuTabBar
                     whiteIcon={WorkLogWhiteIcon}
                     blackIcon={WorkLogBlackIcon}

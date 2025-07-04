@@ -18,29 +18,29 @@ export default function Home() {
     <div className="flex h-[100vh] items-center">
       {/* 폰트 사이즈 테스트 섹션 */}
 
-      <form className="relative mx-auto max-w-4xl rounded-xl bg-[rgba(255,255,255,0.6)] p-16">
+      <form className="relative mx-auto max-w-4xl rounded-xl bg-[rgba(255,255,255,0.6)] p-4 sm:p-16 md:p-20">
         <Image
-          className="absolute -top-16 left-1/2 z-10 -translate-x-1/2"
+          className="absolute -top-16 left-1/2 z-10 hidden size-32 -translate-x-1/2 sm:block"
           src={LoginLogo}
           alt="LoginLogo"
         />
-        <h1 className="mb-6 px-32 text-center text-3xl font-semibold text-white">
+        <h1 className="mb-6 w-full text-center text-lg font-semibold text-white md:text-2xl">
           업무일지 로그인
         </h1>
         <div>
           <input
             type="text"
             placeholder="아이디"
-            className="mb-2 w-full border bg-[url(../img/id.png)] bg-[length:25px_25px] bg-[left_8px_center] bg-no-repeat p-2 pl-9 font-medium text-[#121212]"
+            className="mb-2 w-full border bg-[url(../img/id.png)] bg-[length:25px_25px] bg-[left_8px_center] bg-no-repeat p-2 pl-9 text-sm font-medium text-[#121212]"
           />
         </div>
         <input
           type="password"
           placeholder="비밀번호"
-          className="mb-4 w-full border bg-[url(../img/password.png)] bg-[length:25px_25px] bg-[left_8px_center] bg-no-repeat p-2 pl-9 text-[#121212]"
+          className="mb-4 w-full border bg-[url(../img/password.png)] bg-[length:25px_25px] bg-[left_8px_center] bg-no-repeat p-2 pl-9 text-sm text-[#121212]"
         />
         <button
-          className="w-full rounded-lg bg-[#121212] py-2 text-xl text-white"
+          className="w-full rounded-lg bg-[#121212] py-2 text-sm text-white sm:text-lg"
           onClick={LoginHandler}
         >
           Login

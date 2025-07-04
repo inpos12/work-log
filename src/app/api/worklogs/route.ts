@@ -21,7 +21,7 @@ export const POST = async (req: NextRequest) => {
       !result ||
       !newDate
     ) {
-      return NextResponse.json({ message: "필수 항목 누락" }, { status: 400 });
+      return createAPIErrorResponse("필수 항목 누락");
     }
     const client = await clientPromise;
     const db = client.db("worklogdb");
@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
       newDate,
     });
 
-    return NextResponse.json({ message: "업무일지등록" }, { status: 200 });
+    return createAPIResponse("업무일지등록성공", null, 200);
   } catch (error) {
     console.log("새업무일지등록에러", error);
     return NextResponse.json(
