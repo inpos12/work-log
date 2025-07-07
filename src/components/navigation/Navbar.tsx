@@ -13,7 +13,7 @@ interface Props {
   blackIcon: StaticImport;
   menuName: string;
 }
-export const MenuTabBar: React.FC<Props> = (props) => {
+export const SideBar: React.FC<Props> = (props) => {
   const { isSearchMode, setIsSearchMode } = searchStore();
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const { goToWorkLog } = useCustomRouter();

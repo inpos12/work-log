@@ -60,117 +60,133 @@ export const NewWorkLog = () => {
   };
   return (
     <>
-      <Container classname="container flex flex-col items-center justify-center  ">
-        <PageIndicator
-          imageboolen={true}
-          image={WorkLogWhiteIcon}
-          iconboolen={false}
-          alt="WorkLogBlackIcon"
-          title="새 업무일지 작성"
-          buttonicon={false}
-          buttonname="저장하기"
-          onButtonClick={handleIndicatorButtonClick}
-        />
+      <section id="newWorkLog">
+        <Container classname="container flex flex-col items-center justify-center  ">
+          <PageIndicator
+            imageboolen={true}
+            image={WorkLogWhiteIcon}
+            iconboolen={false}
+            alt="WorkLogBlackIcon"
+            title="새 업무일지 작성"
+            buttonicon={false}
+            buttonname="저장하기"
+            onButtonClick={handleIndicatorButtonClick}
+          />
 
-        <Row classname="w-full xl:w-4/5 h-[90vh]">
-          <form
-            className="flex flex-col gap-4"
-            onSubmit={onSubmit}
-            ref={formref}
-          >
-            <div>
-              <p className="text-lg">제목</p>
-              <input
-                name="title"
-                className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
-                placeholder="업무일지 제목을 입력하세요"
-              />
-            </div>
-            <div>
-              <p>작성자</p>
-              <input
-                name="username"
-                placeholder="작성자명을 입력하세요"
-                className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
-              />
-            </div>
-            <div>
-              <p>날짜</p>
-              <DatePicker
-                wrapperClassName="w-full mt-2"
-                customInput={
-                  <input
-                    name="date"
-                    placeholder="날짜를 선택하세요"
-                    maxLength={8}
-                    className="w-full cursor-pointer rounded-md border border-gray-400 py-1 pl-2 text-black placeholder:text-gray-400"
-                  />
-                }
-                dateFormat="yyyy-MM-dd"
-                shouldCloseOnSelect
-                selected={date}
-                onChange={(date: Date | null) => setDate(date)}
-              />
-            </div>
-            <div className="flex justify-between">
-              <div className="w-full pr-2">
-                <p>팀</p>
-                <select
-                  name="team"
-                  className="mt-2 w-full py-1 pl-2 text-black"
-                  defaultValue="영업부"
-                >
-                  <option className="text-black" value="영업부">
-                    영업부
-                  </option>
-                  <option className="text-black" value="기획부">
-                    기획부
-                  </option>
-                  <option className="text-black" value="개발팀">
-                    개발팀
-                  </option>
-                </select>
+          <Row classname="w-full xl:w-4/5 h-[90vh]">
+            <form
+              className="flex flex-col gap-4"
+              onSubmit={onSubmit}
+              ref={formref}
+            >
+              <div>
+                <label htmlFor="title" className="text-lg">
+                  제목
+                </label>
+                <input
+                  id="title"
+                  required
+                  name="title"
+                  className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
+                  placeholder="업무일지 제목을 입력하세요"
+                />
               </div>
-              <div className="relative right-0 w-full pl-2">
-                <p>진행상태</p>
-                <select
-                  name="status"
-                  className="mt-2 w-full py-1 pl-2 text-black"
-                >
-                  <option className="text-black" value="대기중">
-                    대기중
-                  </option>
-                  <option className="text-black" value="진행중">
-                    진행중
-                  </option>
-                  <option className="text-black" value="완료">
-                    완료
-                  </option>
-                  <option className="text-black" value="지연">
-                    지연
-                  </option>
-                </select>
+              <div>
+                <label htmlFor="username">작성자</label>
+                <input
+                  id="username"
+                  required
+                  name="username"
+                  placeholder="작성자명을 입력하세요"
+                  className="mt-2 w-full rounded-md py-1 pl-2 text-black placeholder:text-gray-400"
+                />
               </div>
-            </div>
-            <div>
-              <p>업무내용</p>
-              <textarea
-                name="content"
-                placeholder="상세 업무 내용을 입력하세요"
-                className="mt-2 h-60 w-full px-2 py-1 text-black"
-              />
-            </div>
-            <div>
-              <p>업무 결과</p>
-              <textarea
-                name="result"
-                placeholder="업무 결과 및 성과를 입력하세요"
-                className="mt-2 h-40 w-full px-2 py-1 text-black"
-              />
-            </div>
-          </form>
-        </Row>
-      </Container>
+              <div>
+                <label htmlFor="date">날짜</label>
+                <DatePicker
+                  wrapperClassName="w-full mt-2"
+                  customInput={
+                    <input
+                      id="date"
+                      required
+                      name="date"
+                      placeholder="날짜를 선택하세요"
+                      maxLength={8}
+                      className="w-full cursor-pointer rounded-md border border-gray-400 py-1 pl-2 text-black placeholder:text-gray-400"
+                    />
+                  }
+                  dateFormat="yyyy-MM-dd"
+                  shouldCloseOnSelect
+                  selected={date}
+                  onChange={(date: Date | null) => setDate(date)}
+                />
+              </div>
+              <div className="flex justify-between">
+                <div className="w-full pr-2">
+                  <label htmlFor="team">팀</label>
+                  <select
+                    id="team"
+                    name="team"
+                    className="mt-2 w-full py-1 pl-2 text-black"
+                    defaultValue="영업부"
+                  >
+                    <option className="text-black" value="영업부">
+                      영업부
+                    </option>
+                    <option className="text-black" value="기획부">
+                      기획부
+                    </option>
+                    <option className="text-black" value="개발팀">
+                      개발팀
+                    </option>
+                  </select>
+                </div>
+                <div className="relative right-0 w-full pl-2">
+                  <label htmlFor="status">진행상태</label>
+                  <select
+                    id="status"
+                    name="status"
+                    className="mt-2 w-full py-1 pl-2 text-black"
+                  >
+                    <option className="text-black" value="대기중">
+                      대기중
+                    </option>
+                    <option className="text-black" value="진행중">
+                      진행중
+                    </option>
+                    <option className="text-black" value="완료">
+                      완료
+                    </option>
+                    <option className="text-black" value="지연">
+                      지연
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label htmlFor="content">업무내용</label>
+                <textarea
+                  id="content"
+                  required
+                  name="content"
+                  placeholder="상세 업무 내용을 입력하세요"
+                  className="mt-2 h-60 w-full px-2 py-1 text-black"
+                />
+              </div>
+              <div>
+                <label htmlFor="result">업무 결과</label>
+                <textarea
+                  id="result"
+                  required
+                  name="result"
+                  placeholder="업무 결과 및 성과를 입력하세요"
+                  className="mt-2 h-40 w-full px-2 py-1 text-black"
+                />
+              </div>
+            </form>
+          </Row>
+        </Container>
+      </section>
     </>
   );
 };
