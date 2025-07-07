@@ -68,29 +68,8 @@ export default function Navbar() {
             />
           </Col>
           <Col classname="flex items-center justify-end">
-            {/* <button className="rounded-xl bg-red-700 py-2 font-semibold text-white">
-              로그아웃
-            </button>
-            <p className="text-center text-lg text-white">개발자님</p> */}
             <Image className="w-12" src={AdminLogo} alt="AdminLogo" />
           </Col>
-
-          {/* 
-          <Image className="mx-auto mt-9" src={AdminLogo} alt="AdminLogo" />
-          <p className="mb-12 px-[95px] text-center text-3xl text-white">
-            개발자님
-          </p>
-          <MenuTabBar
-            whiteIcon={WorkLogWhiteIcon}
-            blackIcon={WorkLogBlackIcon}
-            menuName="업무일지"
-          />
-          <MenuTabBar
-            whiteIcon={UserWhiteIcon}
-            blackIcon={UserBlackIcon}
-            menuName="사용자"
-          />
-          <div className="text-center"></div> */}
         </div>
       </div>
     </nav>

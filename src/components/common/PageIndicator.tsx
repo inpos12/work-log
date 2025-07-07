@@ -14,6 +14,7 @@ interface OwnProps {
   firstbuttonname?: string;
   onButtonClick: (e: React.MouseEvent) => void;
   buttonicon: boolean;
+  display?: string;
 }
 export const PageIndicator: React.FC<OwnProps> = (props) => {
   return (
@@ -29,6 +30,7 @@ export const PageIndicator: React.FC<OwnProps> = (props) => {
         <Col classname="flex justify-end">
           <button
             onClick={props.onButtonClick}
+            style={{ display: props?.display }}
             className="flex items-center justify-center gap-5 rounded-lg bg-red-700 p-2 text-white"
           >
             {props.buttonicon && (

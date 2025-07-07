@@ -75,6 +75,7 @@ export default function Details() {
           onButtonClick={goToWorkLogPage}
           buttonicon={false}
           buttonname="수정"
+          display="none"
         />
 
         <Row classname="w-full  ">
@@ -82,22 +83,38 @@ export default function Details() {
             {data ? (
               <div>
                 <h1 className="text-3xl font-bold">{data.title}</h1>
-                <div className="flex w-2/3 items-center justify-between">
-                  <div className="flex items-center">
-                    <Calendar className="mr-2 h-10 w-5" />
-                    <p className="text-sm">{data.newDate}</p>
+                <div className="grid w-4/5 grid-cols-1 sm:w-full sm:grid-cols-2 md:w-full md:grid-cols-1 lg:w-2/3 lg:grid-cols-2">
+                  <div className="grid grid-cols-2">
+                    <div className="flex items-center">
+                      <Calendar className="mr-2 h-10 w-5" />
+                      <p className="text-sm">{data.newDate}</p>
+                    </div>
+                    <div className="flex items-center">
+                      <User className="mr-2 h-10 w-5" />
+                      <p className="text-sm">{data.username}</p>
+                    </div>
                   </div>
                   <div className="flex items-center">
-                    <User className="mr-2 h-10 w-5" />
-                    <p className="text-sm">{data.username}</p>
-                  </div>
-                  <div className="flex w-1/2 items-center">
-                    <p className="mr-2 bg-red-300 p-1 text-sm">{data.team}</p>
-                    <p className="bg-red-300 p-1 text-sm">{data.status}</p>
+                    <p className="mr-2 bg-gray-200 p-1 text-sm text-gray-800">
+                      {data.team}
+                    </p>
+                    <p className="bg-blue-100 p-1 text-sm text-blue-800">
+                      {data.status}
+                    </p>
                   </div>
                 </div>
-                <h1>내용 : {data.content}</h1>
-                <h1>결과 : {data.result}</h1>
+                <h2 className="mt-2 text-lg font-medium text-red-500">
+                  업무 내용
+                </h2>
+                <div className="mt-2 border-2 border-white p-2">
+                  <p className="text-sm text-gray-200">{data.content}</p>
+                </div>
+                <h2 className="mt-2 text-lg font-medium text-red-500">
+                  업무 결과
+                </h2>
+                <div className="border-whitep-2 mt-2 border-2 p-2">
+                  <p className="text-sm text-gray-200">{data.content}</p>
+                </div>
               </div>
             ) : (
               <LoadingSpinner />

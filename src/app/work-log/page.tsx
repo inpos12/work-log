@@ -97,8 +97,8 @@ export default function Home() {
               </button>
             </div>
           </form>
-          <div className="hidden items-center border-b-2 border-gray-400 py-4 sm:flex">
-            <div className="py-2 text-center sm:w-1/6">
+          <div className="hidden items-center border-b-2 border-gray-400 py-2 sm:flex">
+            <div className="text-center sm:w-1/6">
               <p className="text-white">작성일</p>
             </div>
             <div className="text-center sm:w-1/6">
@@ -108,7 +108,7 @@ export default function Home() {
               <p className="text-white">작성자명</p>
             </div>
             <div className="text-center text-white sm:w-3/6">
-              <p className="py-2">업무일지명</p>
+              <p>업무일지명</p>
             </div>
           </div>
           <div>

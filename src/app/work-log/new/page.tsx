@@ -72,7 +72,7 @@ export const NewWorkLog = () => {
           onButtonClick={handleIndicatorButtonClick}
         />
 
-        <Row classname="w-full xl:w-1/2 h-[90vh]">
+        <Row classname="w-full xl:w-4/5 h-[90vh]">
           <form
             className="flex flex-col gap-4"
             onSubmit={onSubmit}
