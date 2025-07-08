@@ -26,7 +26,6 @@ interface OwnPropsType {
 
 export default function Details() {
   const { setIsSearchMode } = searchStore();
-  const [data, setData] = useState<OwnPropsType>();
   const { goToWorkLog } = useCustomRouter();
   const params = useParams();
   const id = params.id;
@@ -49,7 +48,7 @@ export default function Details() {
       const yyyy = utcDate.getFullYear();
       const month = String(utcDate.getMonth() + 1).padStart(2, "0");
       const dd = String(utcDate.getDate()).padStart(2, "0");
-      const formatDate = yyyy + "-" + month + "-" + dd;
+      const formatDate = `${yyyy}-${month}-${dd}`;
       return { ...result, newDate: formatDate };
     } catch (error) {
       console.log(error);
@@ -61,7 +60,7 @@ export default function Details() {
     isLoading,
     isError,
     error,
-  } = useQuery({
+  } = useQuery<OwnPropsType>({
     queryKey: ["workLogDetails", id],
     queryFn: fetchData,
   });

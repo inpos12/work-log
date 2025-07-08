@@ -25,7 +25,6 @@ export default function RootLayout({
     } else {
       document.body.style.overflow = "auto";
     }
-    console.log(hideNavbar);
   }, [hideNavbar]);
   return (
     <html lang="en">

@@ -84,7 +84,7 @@ export const GET = async (req: NextRequest) => {
       )
       .sort({ newDate: -1 })
       .toArray();
-    console.log(result);
+
     return createAPIResponse("Success", result, 200);
   } catch (error) {
     return createAPIErrorResponse("Failed to fetch worklogs");

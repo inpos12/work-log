@@ -2,8 +2,7 @@
 import { NextResponse } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const uri =
-  "mongodb+srv://tmdcks86869869:<db_password>@cluster0.z7gduk7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI!;
 
 const client = new MongoClient(uri, {
   serverApi: {
