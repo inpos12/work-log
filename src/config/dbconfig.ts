@@ -1,4 +1,5 @@
 import { MongoClient, ServerApiVersion, Db, Collection } from "mongodb";
+import type { Document } from "mongodb";
 
 // 환경변수 검증
 const uri = process.env.MONGODB_URI;
@@ -81,7 +82,7 @@ async function connectToDatabase(): Promise<MongoClient> {
 /**
  * 컬렉션을 안전하게 가져오는 함수
  */
-export async function getCollection<T extends {}>(
+export async function getCollection<T extends Document>(
   collectionName: string,
 ): Promise<Collection<T>> {
   try {

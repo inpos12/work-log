@@ -1,9 +1,5 @@
 import { getCollection } from "@/config/dbconfig";
-import {
-  DBWorkLogDetails,
-  DBWorkLogDetailsPost,
-  WorkLog,
-} from "@/types/worklog";
+import { DBWorkLogDetailsPost, WorkLog } from "@/types/worklog";
 import {
   createAPIErrorResponse,
   createAPIResponse,

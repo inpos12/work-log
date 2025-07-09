@@ -4,7 +4,6 @@ import { WorkLog } from "@/types/worklog";
 import { formatDateToKST } from "@/utils/work-log";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
 
 type SearchParams = {
   start?: Date | null;
