@@ -1,4 +1,4 @@
-import clientPromise from "@/config/dbconfig";
+import { getCollection } from "@/config/dbconfig";
 import {
   createAPIErrorResponse,
   createAPIResponse,
@@ -23,9 +23,8 @@ export const POST = async (req: NextRequest) => {
     ) {
       return createAPIErrorResponse("필수 항목 누락");
     }
-    const client = await clientPromise;
-    const db = client.db("worklogdb");
-    const collection = db.collection("worklogs");
+
+    const collection = await getCollection("worklogs");
     await collection.insertOne({
       title,
       username,
@@ -48,9 +47,7 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   try {
-    const client = await clientPromise;
-    const db = client.db("worklogdb");
-    const collection = db.collection("worklogs");
+    const collection = await getCollection("worklogs");
     const url = new URL(req.url);
     const startDateStr = url.searchParams.get("start");
     const endDateStr = url.searchParams.get("end");

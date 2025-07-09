@@ -7,7 +7,6 @@ import AdminLogo from "@/img/비앤비_관리자-로고.png";
 import SamwonLogo from "@/img/삼원메인로고1.png";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { searchStore } from "@/store/searchStore";
-import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   whiteIcon: StaticImport;
@@ -15,7 +14,7 @@ interface Props {
   menuName: string;
 }
 export const SideBar: React.FC<Props> = (props) => {
-  const { isSearchMode, setIsSearchMode } = searchStore();
+  const { setIsSearchMode } = searchStore();
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const { goToWorkLog } = useCustomRouter();
   const goToWorkLogPage = (e: React.MouseEvent) => {
@@ -51,8 +50,7 @@ export const SideBar: React.FC<Props> = (props) => {
 export default function Navbar() {
   const { goToWorkLog } = useCustomRouter();
   const { isSearchMode, setIsSearchMode } = searchStore();
-  const pathname = usePathname();
-  const router = useRouter();
+
   const goToWorkLogPage = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsSearchMode(isSearchMode);

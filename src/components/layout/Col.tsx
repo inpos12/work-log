@@ -7,7 +7,7 @@ type Props = {
   classname?: string;
 };
 
-export default function Col({ children, perRow = 2, classname }: Props) {
+export default function Col({ children, classname }: Props) {
   return (
     <>
       <div className={`${classname}`}>{children}</div>

@@ -6,7 +6,7 @@ import React, { useRef, useState } from "react";
 import WorkLogWhiteIcon from "@/img/근무일지-화이트-로고.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 type DataType = {

@@ -41,7 +41,7 @@ export const useWorkLogs = (params?: SearchParams) => {
   }, []);
 
   return {
-    searchData: workLogs?.formattedData,
+    searchData,
     isLoading,
     isError,
     error,

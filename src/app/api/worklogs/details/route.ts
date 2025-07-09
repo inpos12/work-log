@@ -1,4 +1,4 @@
-import clientPromise from "@/config/dbconfig";
+import { getCollection } from "@/config/dbconfig";
 import { DBWorkLogDetails } from "@/types/worklog";
 import { createAPIResponse } from "@/utils/api-response";
 import { ObjectId } from "mongodb";
@@ -12,9 +12,8 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "아이디없음" }, { status: 400 });
     }
     const Object = new ObjectId(id);
-    const client = await clientPromise;
-    const db = client.db("worklogdb");
-    const collection = db.collection<DBWorkLogDetails>("worklogs");
+
+    const collection = await getCollection("worklogs");
     const result = await collection.findOne(
       {
         _id: { $eq: Object },
