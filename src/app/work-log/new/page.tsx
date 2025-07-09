@@ -19,7 +19,7 @@ type DataType = {
   date?: string;
 };
 
-export const NewWorkLog = () => {
+const NewWorkLog: React.FC = () => {
   const { goToWorkLog } = useCustomRouter();
   const formref = useRef<HTMLFormElement>(null);
   const [date, setDate] = useState<Date | null>(new Date());
