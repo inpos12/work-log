@@ -5,9 +5,8 @@ import "@/app/globals.css";
 import Image from "next/image";
 import SamwonLogo from "../img/삼원메인로고1.png";
 import LoginLogo from "../img/삼원-메인로고.png";
-import { redirect } from "next/navigation";
+
 export default function Home() {
-  // redirect("/work-log");
   const { goToWorkLog } = useCustomRouter();
 
   const LoginHandler = (e: React.FormEvent) => {

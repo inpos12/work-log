@@ -5,7 +5,6 @@ import Row from "@/components/layout/Row";
 import React, { useRef, useState } from "react";
 import WorkLogWhiteIcon from "@/img/근무일지-화이트-로고.png";
 import DatePicker from "react-datepicker";
-import Col from "@/components/layout/Col";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
@@ -28,7 +27,6 @@ export const NewWorkLog = () => {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
-
     const data: DataType = {
       title: formData.get("title") as string,
       username: formData.get("username") as string,

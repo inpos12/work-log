@@ -8,11 +8,11 @@ import { LoadingSpinner, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 import { searchStore } from "@/store/searchStore";
 import axios from "axios";
-import { ArrowLeft, Calendar, MoveLeft, User } from "lucide-react";
+import { ArrowLeft, Calendar, User } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 
-import React, { useState } from "react";
+import React from "react";
 
 interface OwnPropsType {
   newDate: string;
@@ -59,7 +59,6 @@ export default function Details() {
     data: details,
     isLoading,
     isError,
-    error,
   } = useQuery<OwnPropsType>({
     queryKey: ["workLogDetails", id],
     queryFn: fetchData,

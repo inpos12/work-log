@@ -19,7 +19,7 @@ export default function Home() {
   });
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
-  const { searchData, isLoading, isError, error } = useWorkLogs({
+  const { searchData, isLoading, isError } = useWorkLogs({
     start: startDate,
     end: endDate,
   });
