@@ -6,18 +6,19 @@ import React, { useRef, useState } from "react";
 import WorkLogWhiteIcon from "@/img/근무일지-화이트-로고.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import { useCustomRouter } from "@/hooks/useCustomRouter";
 
 type DataType = {
-  title: FormDataEntryValue | null;
-  username: FormDataEntryValue | null;
-  team: FormDataEntryValue | null;
-  status: FormDataEntryValue | null;
-  content: FormDataEntryValue | null;
-  result: FormDataEntryValue | null;
-  date: string | undefined;
+  title: string;
+  username: string;
+  team: string;
+  status: string;
+  content: string;
+  result: string;
+  date?: string;
 };
+
 export const NewWorkLog = () => {
   const { goToWorkLog } = useCustomRouter();
   const formref = useRef<HTMLFormElement>(null);
@@ -28,12 +29,12 @@ export const NewWorkLog = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
     const data: DataType = {
-      title: formData.get("title") as string,
-      username: formData.get("username") as string,
-      team: formData.get("team") as string,
-      status: formData.get("status") as string,
-      content: formData.get("content") as string,
-      result: formData.get("result") as string,
+      title: formData.get("title")?.toString() ?? "",
+      username: formData.get("username")?.toString() ?? "",
+      team: formData.get("team")?.toString() ?? "",
+      status: formData.get("status")?.toString() ?? "",
+      content: formData.get("content")?.toString() ?? "",
+      result: formData.get("result")?.toString() ?? "",
       date: date?.toLocaleString("en-US", {
         timeZone: "Asia/Seoul",
       }),
@@ -43,12 +44,10 @@ export const NewWorkLog = () => {
       const result = await axios.post("/api/worklogs/", data);
       alert(result.data.message);
       goToWorkLog();
-    } catch (error: any) {
+    } catch (err) {
       // axios 에러 메시지 접근 예시
-      if (error.response?.data?.error) {
-        console.log("프론트에러:", error.response.data.error);
-      } else {
-        console.log("프론트에러:", error.message);
+      if (err) {
+        console.log("프론트에러:", err);
       }
     }
   };

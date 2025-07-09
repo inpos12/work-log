@@ -87,6 +87,7 @@ export const GET = async (req: NextRequest) => {
 
     return createAPIResponse("Success", result, 200);
   } catch (error) {
+    console.error("업무일지 조회 에러:", error);
     return createAPIErrorResponse("Failed to fetch worklogs");
   }
 };
