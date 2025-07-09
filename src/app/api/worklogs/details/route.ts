@@ -1,5 +1,4 @@
 import { getCollection } from "@/config/dbconfig";
-import { DBWorkLogDetails } from "@/types/worklog";
 import { createAPIResponse } from "@/utils/api-response";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
@@ -12,7 +11,6 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "아이디없음" }, { status: 400 });
     }
     const Object = new ObjectId(id);
-
     const collection = await getCollection("worklogs");
     const result = await collection.findOne(
       {

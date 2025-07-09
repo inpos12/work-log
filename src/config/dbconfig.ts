@@ -81,13 +81,13 @@ async function connectToDatabase(): Promise<MongoClient> {
 /**
  * 컬렉션을 안전하게 가져오는 함수
  */
-export async function getCollection(
+export async function getCollection<T extends {}>(
   collectionName: string,
-): Promise<Collection> {
+): Promise<Collection<T>> {
   try {
     await connectToDatabase();
     const db: Db = client.db("worklogdb");
-    return db.collection(collectionName);
+    return db.collection<T>(collectionName);
   } catch (error) {
     console.error(`컬렉션 ${collectionName} 접근 실패:`, error);
     throw new Error(`데이터베이스 연결에 실패했습니다: ${error}`);

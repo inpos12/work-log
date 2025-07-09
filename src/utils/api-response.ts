@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-export const createAPIResponse = <T>(
+export const createAPIResponse = (
   message: string,
-  data: T,
+  data: any,
   status: number,
 ) => {
   return NextResponse.json(

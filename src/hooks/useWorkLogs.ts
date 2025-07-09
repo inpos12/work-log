@@ -16,7 +16,6 @@ type FetchResult = {
   formattedData: WorkLog[];
 };
 export const useWorkLogs = (params?: SearchParams) => {
-  const [searchData, setSearchData] = useState<WorkLog[]>();
   const fetchWorkLogs = async (): Promise<FetchResult> => {
     const response = await axios.get("/api/worklogs", { params });
     const formattedDate = formatDateToKST(response.data.data as WorkLog[]);
@@ -32,16 +31,8 @@ export const useWorkLogs = (params?: SearchParams) => {
     queryFn: fetchWorkLogs,
   });
 
-  useEffect(() => {
-    if (params?.start && params?.end) {
-      setSearchData(workLogs?.formattedData);
-    } else {
-      console.log(error);
-    }
-  }, []);
-
   return {
-    searchData,
+    searchData: workLogs?.formattedData,
     isLoading,
     isError,
     error,

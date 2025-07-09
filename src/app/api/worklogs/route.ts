@@ -1,5 +1,10 @@
 import { getCollection } from "@/config/dbconfig";
 import {
+  DBWorkLogDetails,
+  DBWorkLogDetailsPost,
+  WorkLog,
+} from "@/types/worklog";
+import {
   createAPIErrorResponse,
   createAPIResponse,
 } from "@/utils/api-response";
@@ -24,7 +29,7 @@ export const POST = async (req: NextRequest) => {
       return createAPIErrorResponse("필수 항목 누락");
     }
 
-    const collection = await getCollection("worklogs");
+    const collection = await getCollection<DBWorkLogDetailsPost>("worklogs");
     await collection.insertOne({
       title,
       username,
@@ -47,7 +52,7 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   try {
-    const collection = await getCollection("worklogs");
+    const collection = await getCollection<WorkLog[]>("worklogs");
     const url = new URL(req.url);
     const startDateStr = url.searchParams.get("start");
     const endDateStr = url.searchParams.get("end");
@@ -63,6 +68,7 @@ export const GET = async (req: NextRequest) => {
           },
         })
         .toArray();
+
       return createAPIResponse("Successs", searchData, 200);
     }
     const result = await collection

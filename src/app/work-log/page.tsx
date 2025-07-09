@@ -23,7 +23,7 @@ export default function Home() {
     start: startDate,
     end: endDate,
   });
-
+  console.log(searchData);
   const { goToNewWorkLog } = useCustomRouter();
   const goToNewWorkLogPage = (e: React.MouseEvent) => {
     e.preventDefault();

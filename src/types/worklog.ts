@@ -11,8 +11,13 @@ export interface WorkLog {
   result?: string;
 }
 
-export interface DBWorkLogDetails extends Omit<WorkLog, "_id"> {
+export interface DBWorkLogDetails extends Omit<WorkLog, "_id" | "newDate"> {
   _id: ObjectId;
+}
+
+export interface DBWorkLogDetailsPost
+  extends Omit<DBWorkLogDetails, "_id" | "newDate"> {
+  newDate: Date;
 }
 
 export interface GetWorkLogRequest {
